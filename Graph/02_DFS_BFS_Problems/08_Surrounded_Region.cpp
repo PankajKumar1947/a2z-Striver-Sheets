@@ -67,6 +67,59 @@ public:
         return mat; 
     }
 };
+// T.C : O(n)+O(n)+O(n*m*4)=O(n*m)
+// S.C : O(n*m)+O(n*m)=O(n*m)
+
+
+// Second mehtod: Without recursion
+class Solution1{
+public:
+    vector<vector<char>> fill(int n, int m, vector<vector<char>> mat)
+    {
+        // code here
+        queue<pair<int,int>> q;
+        vector<vector<int>> vis(n, vector<int>(m, 0));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(i==0 || j==0 || i==n-1 || j==m-1){
+                    if(mat[i][j]=='O'){
+                        q.push({i,j});
+                        vis[i][j]=1;
+                    }
+                    
+                }
+            }
+        }
+        
+        int delrow[]={-1,0,1,0};
+        int delcol[]={0,+1,0,-1};
+        while(!q.empty()){
+            int row=q.front().first;
+            int col=q.front().second;
+            q.pop();
+            
+            for(int i=0;i<4;i++){
+                int nrow=row+delrow[i];
+                int ncol=col+delcol[i];
+                if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && vis[nrow][ncol]==0 && mat[nrow][ncol]=='O'){
+                    q.push({nrow,ncol});
+                    vis[nrow][ncol]=1;
+                }
+            }
+            
+        }
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(mat[i][j]=='O' && vis[i][j]==0)
+                    mat[i][j]='X';
+            }
+        }
+        
+        return mat;
+    }
+};
+
 
 int main(){   
     vector<vector<char>> mat{
@@ -77,7 +130,7 @@ int main(){
         {'X', 'X', 'O', 'O'}
     };
     
-    Solution ob;
+    Solution1 ob;
     // n = 5, m = 4
     vector<vector<char>> ans = ob.fill(5, 4, mat);
     for(int i = 0;i < 5;i++) {
@@ -89,5 +142,3 @@ int main(){
     return 0;
 }
 
-// T.C : O(n)+O(n)+O(n*m*4)=O(n*m)
-// S.C : O(n*m)+O(n*m)=O(n*m)
