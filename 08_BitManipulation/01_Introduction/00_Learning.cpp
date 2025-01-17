@@ -1,5 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
+#include <math.h>
+
 
 //1. Convert decimal number to binary
 string deciToBinary(int n){
@@ -22,11 +24,18 @@ string deciToBinary(int n){
 //2. Convert binary to decimal
 int binaryToDecimal(string bin){
     int num=0;
-    int power2=1;//for calculating power of 2.
+    // int power2=1;//for calculating power of 2.
+    // for(int i=bin.length()-1;i>=0;i--){
+    //     if(bin[i]=='1')
+    //         num+=power2;
+    //     power2*=2;
+    // }
+
+    int powIndex=0;
     for(int i=bin.length()-1;i>=0;i--){
         if(bin[i]=='1')
-            num+=power2;
-        power2*=2;
+            num+=pow(2,powIndex);
+        powIndex++;
     }
     return num;
 }
